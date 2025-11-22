@@ -4,7 +4,7 @@ To run your stock prediction project locally, follow these steps:
 
 STEP 1 : Clone the Repository:
 
-        git clone https://github.com/tanushkumar84/stock-prediction.git
+        git clone https://github.com/saumil1400/stockk
 
         cd stock-prediction
 STEP 2: Install Dependencies:
