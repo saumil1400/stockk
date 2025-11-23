@@ -7,25 +7,17 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Uses your Windows host / WSL2 runner
+    runs-on: self-hosted
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Build Docker image
-      - name: Build Docker image
-        run: |
-          docker build -t myapp:latest .
+      - name: Use Minikube Docker daemon
+        shell: powershell
+        run: minikube docker-env | Invoke-Expression
 
-      # 3️⃣ (Optional) Tag and push to registry
-      #- name: Push to Docker Hub
-      #  run: |
-      #    docker tag myapp:latest <your-dockerhub-username>/myapp:latest
-      #    docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      #    docker push <your-dockerhub-username>/myapp:latest
+      - name: Build Docker image inside Minikube
+        run: docker build -t streamlit-app:latest .
 
-      # 4️⃣ Deploy to Minikube
       - name: Deploy to Minikube
-        run: |
-          kubectl apply -f k8s/  # path to your Kubernetes manifests
+        run: kubectl apply -f k8s/
